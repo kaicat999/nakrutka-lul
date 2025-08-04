@@ -2,73 +2,97 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>накрутка.lul</title>
+    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/9/96/Twitch_icon.svg" type="image/svg+xml">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #1e1e1e;
+            background: #111;
             color: #fff;
+            font-family: Arial, sans-serif;
             text-align: center;
-            padding-top: 50px;
+            padding: 40px;
         }
         h1 {
-            font-size: 48px;
-            color: #00ff99;
-            margin-bottom: 30px;
+            font-size: 2.5em;
+            color: #a970ff;
         }
-        input[type="number"], input[type="text"] {
+        input {
             padding: 10px;
             margin: 10px;
-            font-size: 18px;
-            width: 300px;
+            font-size: 1.2em;
+            width: 200px;
+            border-radius: 10px;
             border: none;
-            border-radius: 8px;
         }
         button {
-            padding: 12px 30px;
-            font-size: 20px;
-            background-color: #00ff99;
-            color: #000;
+            background-color: #9147ff;
             border: none;
-            border-radius: 8px;
+            color: white;
+            padding: 12px 24px;
+            font-size: 1.2em;
+            border-radius: 12px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: background 0.3s;
         }
         button:hover {
-            background-color: #00cc7a;
+            background-color: #772ce8;
         }
-        .price {
-            font-size: 24px;
-            margin: 20px 0;
-            color: #00ff99;
+        #loader {
+            display: none;
+            font-size: 1.4em;
+            margin-top: 20px;
+        }
+        #receipt {
+            display: none;
+            margin-top: 30px;
+            padding: 20px;
+            border: 2px dashed #4caf50;
+            border-radius: 12px;
+            background-color: #1e1e1e;
         }
     </style>
 </head>
 <body>
     <h1>накрутка.lul</h1>
+    <input type="number" id="viewers" placeholder="Зрителей">
+    <br>
+    <input type="text" id="channel" placeholder="Ваш Twitch канал">
+    <br>
+    <p>К оплате: <strong>0,0 рублей</strong></p>
+    <button onclick="startFakeProcess()">Оплатить</button>
 
-    <div>
-        <input type="number" placeholder="Введите число онлайн людей">
-    </div>
+    <div id="loader">⏳ Накрутка началась... Пожалуйста, подождите...</div>
 
-    <div>
-        <input type="text" placeholder="Введите ваш Twitch канал">
-    </div>
-
-    <div class="price">
-        К оплате: 0.0 рублей
-    </div>
-
-    <div>
-        <button onclick="pay()">Оплатить</button>
+    <div id="receipt">
+        ✅ Успешно накручено <span id="fake-count"></span> зрителей на канал <strong id="fake-channel"></strong>!<br>
+        Спасибо за использование накрутка.lul ❤
     </div>
 
     <script>
-        function pay() {
-            alert("Успешно, ожидайте накрутку!");
-            setTimeout(function() {
-                window.location.reload();
-            }, 2000); // 2 секунды
+        function startFakeProcess() {
+            const viewers = document.getElementById('viewers').value;
+            const channel = document.getElementById('channel').value;
+
+            if (!viewers || !channel) {
+                alert('Заполни оба поля!');
+                return;
+            }
+
+            document.querySelector('button').disabled = true;
+            document.getElementById('loader').style.display = 'block';
+
+            setTimeout(() => {
+                document.getElementById('loader').style.display = 'none';
+                document.getElementById('receipt').style.display = 'block';
+                document.getElementById('fake-count').textContent = viewers;
+                document.getElementById('fake-channel').textContent = channel;
+
+                // Автоматический сброс через 5 секунд
+                setTimeout(() => {
+                    location.reload();
+                }, 5000);
+            }, 3000);
         }
     </script>
 </body>
