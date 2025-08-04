@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>накрутка.lul</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #1e1e1e, #121212);
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    h1 {
+      font-size: 3em;
+      margin-bottom: 30px;
+      color: #00ff88;
+    }
+    input {
+      font-size: 1.2em;
+      padding: 10px;
+      margin: 10px;
+      border-radius: 8px;
+      border: none;
+      width: 300px;
+      text-align: center;
+    }
+    button {
+      padding: 12px 24px;
+      font-size: 1.2em;
+      background-color: #00ff88;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    .price {
+      font-size: 1.3em;
+      margin: 20px 0;
+    }
+    .hidden {
+      display: none;
+    }
+    #progressContainer {
+      width: 300px;
+      background-color: #333;
+      border-radius: 20px;
+      overflow: hidden;
+      margin-top: 20px;
+    }
+    #progressBar {
+      height: 20px;
+      width: 0%;
+      background-color: #00ff88;
+      transition: width 0.3s;
+    }
+    .onlineCount {
+      font-size: 1.2em;
+      margin-top: 20px;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <h1>накрутка.lul</h1>
+
+  <input type="number" id="viewers" placeholder="Сколько зрителей?">
+  <input type="text" id="channel" placeholder="Twitch-канал">
+
+  <div class="price">К оплате: <strong>0.0 рублей</strong></div>
+
+  <button onclick="startFakePayment()">Оплатить</button>
+
+  <div id="progressSection" class="hidden">
+    <div id="progressContainer">
+      <div id="progressBar"></div>
+    </div>
+    <div class="onlineCount" id="onlineCounter">Подключение ботов: 0</div>
+  </div>
+
+  <script>
+    function startFakePayment() {
+      const viewers = document.getElementById('viewers').value;
+      const channel = document.getElementById('channel').value;
+
+      if (!viewers || !channel) {
+        alert("Пожалуйста, заполните все поля.");
+        return;
+      }
+
+      document.getElementById('progressSection').classList.remove('hidden');
+      simulateProgress(parseInt(viewers));
+    }
+
+    function simulateProgress(targetViewers) {
+      let progress = 0;
+      let botsConnected = 0;
+
+      const progressBar = document.getElementById('progressBar');
+      const counter = document.getElementById('onlineCounter');
+
+      const interval = setInterval(() => {
+        if (progress >= 100) {
+          clearInterval(interval);
+          alert("Накрутка завершена! 🎉");
+          location.reload();
+        } else {
+          progress += Math.random() * 5;
+          if (progress > 100) progress = 100;
+          botsConnected = Math.floor(targetViewers * (progress / 100));
+          progressBar.style.width = progress + "%";
+          counter.innerText = Подключено ботов: ${botsConnected};
+        }
+      }, 300);
+    }
+  </script>
+</body>
+</html>
