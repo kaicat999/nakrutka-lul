@@ -1,99 +1,116 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>накрутка.lul</title>
-    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/9/96/Twitch_icon.svg" type="image/svg+xml">
-    <style>
-        body {
-            background: #111;
-            color: #fff;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 40px;
-        }
-        h1 {
-            font-size: 2.5em;
-            color: #a970ff;
-        }
-        input {
-            padding: 10px;
-            margin: 10px;
-            font-size: 1.2em;
-            width: 200px;
-            border-radius: 10px;
-            border: none;
-        }
-        button {
-            background-color: #9147ff;
-            border: none;
-            color: white;
-            padding: 12px 24px;
-            font-size: 1.2em;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        button:hover {
-            background-color: #772ce8;
-        }
-        #loader {
-            display: none;
-            font-size: 1.4em;
-            margin-top: 20px;
-        }
-        #receipt {
-            display: none;
-            margin-top: 30px;
-            padding: 20px;
-            border: 2px dashed #4caf50;
-            border-radius: 12px;
-            background-color: #1e1e1e;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>накрутка.lul</title>
+  <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/2/26/YouTube_icon_%282013-2017%29.png" />
+  <style>
+    * {
+      font-family: Arial, sans-serif;
+    }
+    body {
+      background-color: #0d0d0d;
+      color: #eee;
+      text-align: center;
+      padding: 30px;
+    }
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      color: #c084fc;
+    }
+    .form {
+      background-color: #1a1a1a;
+      padding: 20px;
+      border-radius: 10px;
+      display: inline-block;
+      box-shadow: 0 0 15px #7c3aed;
+    }
+    input {
+      padding: 10px;
+      margin: 10px;
+      border-radius: 5px;
+      border: none;
+      background-color: #2a2a2a;
+      color: #fff;
+    }
+    button {
+      background-color: #a855f7;
+      border: none;
+      padding: 10px 20px;
+      color: white;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #9333ea;
+    }
+    #loader {
+      display: none;
+      margin-top: 20px;
+    }
+    #receipt {
+      display: none;
+      background-color: #222;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #7c3aed;
+    }
+  </style>
 </head>
 <body>
-    <h1>накрутка.lul</h1>
-    <input type="number" id="viewers" placeholder="Зрителей">
-    <br>
-    <input type="text" id="channel" placeholder="Ваш Twitch канал">
-    <br>
-    <p>К оплате: <strong>0,0 рублей</strong></p>
+  <h1>накрутка.lul</h1>
+  <div class="form">
+    <input type="number" id="viewers" placeholder="Сколько зрителей?" /><br />
+    <input type="text" id="channel" placeholder="Ваш Twitch канал" /><br />
+    <p>К оплате: 0.0 рублей</p>
     <button onclick="startFakeProcess()">Оплатить</button>
+  </div>
+  <div id="loader">🔄 Идёт накрутка...</div>
+  <div id="receipt">
+    <h2>Чек</h2>
+    <p>Успешная накрутка для канала <span id="resultChannel"></span></p>
+    <p>Зрителей добавлено: <span id="resultViewers"></span></p>
+    <p>Сумма: 0.0 ₽</p>
+    <p>Дата: <span id="date"></span></p>
+    <button onclick="location.reload()">Вернуться</button>
+  </div>
 
-    <div id="loader">⏳ Накрутка началась... Пожалуйста, подождите...</div>
+  <script>
+    function startFakeProcess() {
+      const viewers = document.getElementById("viewers").value;
+      const channel = document.getElementById("channel").value;
+      if (!viewers || !channel) {
+        alert("Пожалуйста, заполните все поля");
+        return;
+      }
+      document.querySelector(".form").style.display = "none";
+      document.getElementById("loader").style.display = "block";
 
-    <div id="receipt">
-        ✅ Успешно накручено <span id="fake-count"></span> зрителей на канал <strong id="fake-channel"></strong>!<br>
-        Спасибо за использование накрутка.lul ❤
-    </div>
+      setTimeout(() => {
+        document.getElementById("loader").style.display = "none";
+        document.getElementById("receipt").style.display = "block";
+        document.getElementById("resultChannel").textContent = channel;
+        document.getElementById("resultViewers").textContent = viewers;
+        document.getElementById("date").textContent = new Date().toLocaleString();
+        tryChangeTwitchViewerCount(viewers);
+      }, 3000);
+    }
 
-    <script>
-        function startFakeProcess() {
-            const viewers = document.getElementById('viewers').value;
-            const channel = document.getElementById('channel').value;
-
-            if (!viewers || !channel) {
-                alert('Заполни оба поля!');
-                return;
-            }
-
-            document.querySelector('button').disabled = true;
-            document.getElementById('loader').style.display = 'block';
-
-            setTimeout(() => {
-                document.getElementById('loader').style.display = 'none';
-                document.getElementById('receipt').style.display = 'block';
-                document.getElementById('fake-count').textContent = viewers;
-                document.getElementById('fake-channel').textContent = channel;
-
-                // Автоматический сброс через 5 секунд
-                setTimeout(() => {
-                    location.reload();
-                }, 5000);
-            }, 3000);
-        }
-    </script>
+    // Попытка изменить число зрителей на открытой вкладке Twitch
+    function tryChangeTwitchViewerCount(viewers) {
+      try {
+        const allTabs = window.open('', '_blank');
+        if (!allTabs) return;
+        // Это псевдо-функция, реальный доступ к другим вкладкам невозможен из JS по политике безопасности
+        console.log("[DEBUG] Визуальная накрутка на Twitch невозможна напрямую через скрипт.");
+      } catch (e) {
+        console.warn("[WARN] Нельзя изменить другие вкладки по соображениям безопасности браузера.");
+      }
+    }
+  </script>
 </body>
 </html>
