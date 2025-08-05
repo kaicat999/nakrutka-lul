@@ -53,8 +53,21 @@
     }
     #loader {
       display: none;
-      margin-top: 20px;
+      margin-top: 30px;
       font-size: 18px;
+    }
+    .spinner {
+      border: 6px solid #2a2a2a;
+      border-top: 6px solid #a855f7;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
     #receipt {
       display: none;
@@ -71,7 +84,10 @@
     <button onclick="startFakeProcess()">Оплатить</button>
   </div>
 
-  <div id="loader">🔄 Идёт накрутка...</div>
+  <div id="loader">
+    <div class="spinner"></div>
+    🔄 Идёт накрутка...
+  </div>
 
   <div id="receipt">
     <h2>Чек</h2>
